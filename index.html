@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Big Pizza - Каждый кусок — большое удовольствие</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      body {
+        font-family: 'Montserrat', sans-serif;
+      }
+      h1, h2, h3, h4, .font-display {
+        font-family: 'Oswald', sans-serif;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
+    "react": "https://esm.sh/react@18.2.0"
+  }
+}
+</script>
+</head>
+  <body class="bg-gray-900 text-white">
+    <div id="root"></div>
+    <script type="module">
+      import React, { useState, useEffect } from 'react';
+      import ReactDOM from 'react-dom/client';
+
+      // --- Component: Footer ---
+      const Footer = () => {
+        return (
+          React.createElement("footer", { className: "bg-black py-6" },
+            React.createElement("div", { className: "container mx-auto px-6 text-center text-gray-500" },
+              React.createElement("p", null, `© ${new Date().getFullYear()} Big Pizza. Все права защищены.`),
+              React.createElement("p", { className: "text-sm mt-1" }, "Создано с ❤️ для любителей пиццы.")
+            )
+          )
+        );
+      };
+
+      // --- Component: Contact ---
+      const ContactInfoItem = ({ icon, title, children }) => (
+          React.createElement("div", { className: "flex items-start space-x-4" },
+              React.createElement("div", { className: "flex-shrink-0 text-red-600 w-8 h-8" }, icon),
+              React.createElement("div", null,
+                  React.createElement("h3", { className: "text-xl font-bold font-display uppercase" }, title),
+                  React.createElement("div", { className: "text-gray-400" }, children)
+              )
+          )
+      );
+
+      const LocationIcon = () => (
+          React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", strokeWidth: 1.5, stroke: "currentColor", className: "w-8 h-8" },
+              React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" }),
+              React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" })
+          )
+      );
+
+      const ClockIcon = () => (
+          React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", strokeWidth: 1.5, stroke: "currentColor", className: "w-8 h-8" },
+              React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" })
+          )
+      );
+
+      const Contact = () => {
+        return (
+          React.createElement("section", { id: "contact", className: "py-20 bg-gray-800" },
+            React.createElement("div", { className: "container mx-auto px-6 text-center" },
+              React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-12" }, "Свяжитесь с нами"),
+              React.createElement("div", { className: "max-w-4xl mx-auto bg-gray-900 p-8 rounded-lg shadow-2xl" },
+                  React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-10 text-left" },
+                      React.createElement(ContactInfoItem, { icon: React.createElement(LocationIcon), title: "Наш Адрес" },
+                          React.createElement("p", null, "ул. Главная, д. 123,"),
+                          React.createElement("p", null, "Москва, Россия"),
+                          React.createElement("a", { href: "#", className: "text-red-500 hover:underline mt-2 inline-block" }, "Показать на карте")
+                      ),
+                      React.createElement(ContactInfoItem, { icon: React.createElement(ClockIcon), title: "Часы Работы" },
+                          React.createElement("p", null, React.createElement("span", { className: "font-semibold" }, "Пн - Пт:"), " 11:00 - 23:00"),
+                          React.createElement("p", null, React.createElement("span", { className: "font-semibold" }, "Сб - Вс:"), " 10:00 - 00:00")
+                      )
+                  )
+              )
+            )
+          )
+        );
+      };
+
+      // --- Component: PizzaCard ---
+      const PizzaCard = ({ name, description, price, imageUrl }) => {
+        return (
+          React.createElement("div", { className: "group bg-gray-800 rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 flex flex-col h-full text-left" },
+            React.createElement("div", { className: "relative" },
+              React.createElement("img", {
+                className: "w-full h-56 object-cover transition-all duration-300 group-hover:brightness-50",
+                src: imageUrl,
+                alt: `Пицца ${name}`
+              }),
+              React.createElement("div", { className: "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" },
+                React.createElement("button", { className: "bg-red-600 text-white font-bold font-display text-lg uppercase py-3 px-8 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg transform hover:scale-105" },
+                  "В корзину"
+                )
+              )
+            ),
+            React.createElement("div", { className: "p-6 flex flex-col flex-grow" },
+              React.createElement("h3", { className: "font-bold font-display text-2xl text-white mb-2 uppercase" }, name),
+              React.createElement("p", { className: "text-gray-400 text-base flex-grow mb-4" }, description),
+              React.createElement("div", { className: "mt-auto" },
+                React.createElement("span", { className: "inline-block bg-red-600 rounded-full px-4 py-2 text-lg font-bold text-white" },
+                  price
+                )
+              )
+            )
+          )
+        );
+      };
+
+      // --- Component: Menu ---
+      const signaturePizzas = [
+        { name: 'Пепперони Классик', description: 'Идеальное сочетание пикантных колбасок пепперони, нежной моцареллы и нашего фирменного томатного соуса.', price: '550 ₽', imageUrl: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=1920&auto=format&fit=crop' },
+        { name: 'Маргарита Премиум', description: 'Королева пиццы: спелые томаты, свежий базилик, оливковое масло и много-много сливочной моцареллы.', price: '480 ₽', imageUrl: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?q=80&w=1928&auto=format&fit=crop' },
+        { name: 'Дьявола', description: 'Для любителей острого: салями, острый перец халапеньо, красный лук и щедрая порция моцареллы.', price: '620 ₽', imageUrl: 'https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?q=80&w=1920&auto=format&fit=crop' },
+        { name: 'Четыре Сыра', description: 'Феерия вкуса для гурманов: гармоничное сочетание моцареллы, пармезана, дорблю и чеддера на нашем фирменном соусе.', price: '590 ₽', imageUrl: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=1920&auto=format&fit=crop' }
+      ];
+
+      const Menu = () => {
+        return (
+          React.createElement("section", { id: "menu", className: "py-20 bg-gray-900" },
+            React.createElement("div", { className: "container mx-auto px-6 text-center" },
+              React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-2" }, "Наше Меню"),
+              React.createElement("p", { className: "text-lg text-gray-400 mb-12 max-w-2xl mx-auto" }, "Попробуйте наши хиты, созданные по секретным рецептам нашего шеф-повара."),
+              React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" },
+                signaturePizzas.map((pizza, index) => React.createElement(PizzaCard, { key: index, ...pizza }))
+              )
+            )
+          )
+        );
+      };
+
+      // --- Component: About ---
+      const About = () => {
+        return (
+          React.createElement("section", { id: "about", className: "py-20 bg-gray-800" },
+            React.createElement("div", { className: "container mx-auto px-6" },
+              React.createElement("div", { className: "flex flex-col md:flex-row items-center gap-12" },
+                React.createElement("div", { className: "md:w-1/2" },
+                  React.createElement("img", {
+                    src: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=1740&auto=format&fit=crop",
+                    alt: "Интерьер пиццерии Big Pizza с печью",
+                    className: "rounded-lg shadow-2xl w-full"
+                  })
+                ),
+                React.createElement("div", { className: "md:w-1/2" },
+                  React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-4" }, "Наша история"),
+                  React.createElement("p", { className: "text-gray-300 mb-4 leading-relaxed" },
+                    "«Big Pizza» родилась из семейной страсти к аутентичной итальянской кухне. Мы начали с маленькой печи на заднем дворе, совершенствуя рецепт теста и подбирая идеальные сочетания начинок. Наша мечта была проста: делиться радостью от вкусной еды с нашими друзьями и соседями."
+                  ),
+                  React.createElement("p", { className: "text-gray-300 leading-relaxed" },
+                    "Сегодня «Big Pizza» — это место, где традиции встречаются с качеством. Мы используем только лучшие местные продукты, свежие овощи и настоящий сыр моцарелла. Каждая пицца готовится вручную и выпекается в каменной печи, чтобы вы могли насладиться тем самым, неповторимым вкусом."
+                  )
+                )
+              )
+            )
+          )
+        );
+      };
+      
+      // --- Component: Hero ---
+      const Hero = () => {
+        return (
+          React.createElement("section", { id: "home", className: "relative h-screen flex items-center justify-center text-center text-white" },
+            React.createElement("div", {
+              className: "absolute top-0 left-0 w-full h-full bg-cover bg-center",
+              style: { backgroundImage: "url('https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1920&auto=format&fit=crop')" }
+            }),
+            React.createElement("div", { className: "absolute top-0 left-0 w-full h-full bg-black bg-opacity-60" }),
+            React.createElement("div", { className: "relative z-10 p-6" },
+              React.createElement("h1", { className: "text-5xl md:text-7xl lg:text-8xl font-bold font-display uppercase tracking-wider leading-tight mb-4" },
+                "Каждый кусок — ", React.createElement("br", null),
+                React.createElement("span", { className: "text-red-600" }, "большое"), " удовольствие"
+              ),
+              React.createElement("p", { className: "text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-300" },
+                "Настоящая итальянская пицца, приготовленная с любовью и только из свежих ингредиентов. Попробуйте раз, и вы вернетесь снова!"
+              ),
+              React.createElement("a", {
+                href: "#menu",
+                className: "bg-red-600 text-white font-bold font-display text-xl uppercase py-4 px-10 rounded-full hover:bg-red-700 transition-transform transform hover:scale-105 duration-300 shadow-lg"
+              }, "Смотреть меню")
+            )
+          )
+        );
+      };
+
+      // --- Component: Header ---
+      const NavLink = ({ href, children, onClick }) => (
+        React.createElement("a", {
+          href: href,
+          onClick: onClick,
+          className: "block md:inline-block px-4 py-2 rounded-md text-lg text-gray-300 hover:text-white hover:bg-red-700 transition-colors duration-300"
+        },
+          children
+        )
+      );
+
+      const Header = () => {
+        const [isOpen, setIsOpen] = useState(false);
+        const [isScrolled, setIsScrolled] = useState(false);
+
+        const navLinks = [
+          { href: '#about', label: 'О Нас' },
+          { href: '#menu', label: 'Меню' },
+          { href: '#contact', label: 'Контакты' },
+        ];
+
+        useEffect(() => {
+          const handleScroll = () => {
+            setIsScrolled(window.scrollY > 10);
+          };
+          window.addEventListener('scroll', handleScroll);
+          return () => {
+            window.removeEventListener('scroll', handleScroll);
+          };
+        }, []);
+
+        const toggleMenu = () => setIsOpen(!isOpen);
+        const closeMenu = () => setIsOpen(false);
+
+        return (
+          React.createElement("header", { className: `sticky top-0 z-50 transition-all duration-300 ${isScrolled ? 'bg-gray-900/80 backdrop-blur-sm shadow-lg' : 'bg-transparent'}` },
+            React.createElement("nav", { className: "container mx-auto px-6 py-3" },
+              React.createElement("div", { className: "flex justify-between items-center" },
+                React.createElement("a", { href: "#home", className: "text-3xl font-bold font-display text-white tracking-wider" },
+                  "BIG ", React.createElement("span", { className: "text-red-600" }, "PIZZA")
+                ),
+                React.createElement("div", { className: "hidden md:flex items-center space-x-2" },
+                  navLinks.map((link) => React.createElement(NavLink, { key: link.href, href: link.href, onClick: () => {} }, link.label))
+                ),
+                React.createElement("div", { className: "md:hidden" },
+                  React.createElement("button", { onClick: toggleMenu, className: "text-white focus:outline-none" },
+                    React.createElement("svg", { className: "w-8 h-8", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" },
+                      isOpen ?
+                        React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M6 18L18 6M6 6l12 12" }) :
+                        React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M4 6h16M4 12h16M4 18h16" })
+                    )
+                  )
+                )
+              ),
+              isOpen && (
+                React.createElement("div", { className: "md:hidden mt-4 bg-gray-800 rounded-lg" },
+                  React.createElement("div", { className: "flex flex-col items-center space-y-2 py-2" },
+                    navLinks.map((link) => React.createElement(NavLink, { key: link.href, href: link.href, onClick: closeMenu }, link.label))
+                  )
+                )
+              )
+            )
+          )
+        );
+      };
+      
+      // --- Component: App ---
+      const App = () => {
+        return (
+          React.createElement("div", { className: "bg-gray-900" },
+            React.createElement(Header, null),
+            React.createElement("main", null,
+              React.createElement(Hero, null),
+              React.createElement(About, null),
+              React.createElement(Menu, null),
+              React.createElement(Contact, null)
+            ),
+            React.createElement(Footer, null)
+          )
+        );
+      };
+
+      // --- Mount Application ---
+      const rootElement = document.getElementById('root');
+      if (!rootElement) {
+        throw new Error("Could not find root element to mount to");
+      }
+
+      const root = ReactDOM.createRoot(rootElement);
+      root.render(
+        React.createElement(React.StrictMode, null,
+          React.createElement(App, null)
+        )
+      );
+    </script>
+  </body>
+</html>
