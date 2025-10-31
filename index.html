@@ -91,15 +91,15 @@
         );
       };
 
-      // --- Component: PizzaCard ---
-      const PizzaCard = ({ name, description, price, imageUrl }) => {
+      // --- Component: MenuItemCard ---
+      const MenuItemCard = ({ name, description, price, imageUrl, category }) => {
         return (
           React.createElement("div", { className: "group bg-gray-800 rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 flex flex-col h-full text-left" },
             React.createElement("div", { className: "relative" },
               React.createElement("img", {
                 className: "w-full h-56 object-cover transition-all duration-300 group-hover:brightness-50",
                 src: imageUrl,
-                alt: `Пицца ${name}`
+                alt: `${category ? category : 'Блюдо'} ${name}`
               }),
               React.createElement("div", { className: "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" },
                 React.createElement("button", { className: "bg-red-600 text-white font-bold font-display text-lg uppercase py-3 px-8 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg transform hover:scale-105" },
@@ -121,21 +121,85 @@
       };
 
       // --- Component: Menu ---
-      const signaturePizzas = [
-        { name: 'Пепперони Классик', description: 'Идеальное сочетание пикантных колбасок пепперони, нежной моцареллы и нашего фирменного томатного соуса.', price: '550 ₽', imageUrl: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=1920&auto=format&fit=crop' },
-        { name: 'Маргарита Премиум', description: 'Королева пиццы: спелые томаты, свежий базилик, оливковое масло и много-много сливочной моцареллы.', price: '480 ₽', imageUrl: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?q=80&w=1928&auto=format&fit=crop' },
-        { name: 'Дьявола', description: 'Для любителей острого: салями, острый перец халапеньо, красный лук и щедрая порция моцареллы.', price: '620 ₽', imageUrl: 'https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?q=80&w=1920&auto=format&fit=crop' },
-        { name: 'Четыре Сыра', description: 'Феерия вкуса для гурманов: гармоничное сочетание моцареллы, пармезана, дорблю и чеддера на нашем фирменном соусе.', price: '590 ₽', imageUrl: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=1920&auto=format&fit=crop' }
+      const menuSections = [
+        {
+          id: 'pizzas',
+          title: 'Пиццы',
+          description: 'Премиальные рецепты с акцентом на свежие ингредиенты и яркие вкусы. В подборке 10 хитов, включая фирменные позиции.',
+          items: [
+            { name: 'Пепперони Классик', description: 'Идеальное сочетание пикантных колбасок пепперони, нежной моцареллы и нашего фирменного томатного соуса.', price: '550 ₽', imageUrl: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Маргарита Премиум', description: 'Королева пиццы: спелые томаты, свежий базилик, оливковое масло и много-много сливочной моцареллы.', price: '480 ₽', imageUrl: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?q=80&w=1928&auto=format&fit=crop' },
+            { name: 'Дьявола', description: 'Для любителей острого: салями, острый перец халапеньо, красный лук и щедрая порция моцареллы.', price: '620 ₽', imageUrl: 'https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Четыре Сыра', description: 'Феерия вкуса для гурманов: гармоничное сочетание моцареллы, пармезана, дорблю и чеддера на нашем фирменном соусе.', price: '590 ₽', imageUrl: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Фирменная Мясная', description: 'Дымный бекон, маринованная говядина и фирменный соус барбекю на тонком тесте.', price: '550 ₽', imageUrl: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Баварская Классика', description: 'Хрустящий бекон, охотничьи колбаски и пикантная горчица под сырной корочкой.', price: '480 ₽', imageUrl: 'https://images.unsplash.com/photo-1594007654729-407eedc4be65?q=80&w=1928&auto=format&fit=crop' },
+            { name: 'Трюфельная Гурме', description: 'Сливочный соус, шампиньоны, копченый сыр и капля трюфельного масла.', price: '620 ₽', imageUrl: 'https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Огненный Гриль', description: 'Маринованный цыпленок, сладкий перец, кукуруза и жгучий соус чили.', price: '590 ₽', imageUrl: 'https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Гавайская Тропик', description: 'Легкая и сочная пицца с куриным филе, ананасом и сливочным соусом.', price: '450 ₽', imageUrl: 'https://images.unsplash.com/photo-1613564834361-9436948817d2?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Вегетариана Прима', description: 'Грилированные овощи, маслины, сладкий перец и фирменный томатный соус.', price: '430 ₽', imageUrl: 'https://images.unsplash.com/photo-1548365328-9d2360ba5cb5?q=80&w=1920&auto=format&fit=crop' }
+          ]
+        },
+        {
+          id: 'drinks',
+          title: 'Напитки',
+          description: 'Освежающие безалкогольные напитки, которые подчеркнут вкус пиццы и помогут утолить жажду.',
+          items: [
+            { name: 'Лимонад Цитрусовый', description: 'Апельсин, лайм и грейпфрут на основе газированной воды и свежей мяты.', price: '180 ₽', imageUrl: 'https://images.unsplash.com/photo-1527169402691-feff5539e52c?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Мохито Классический', description: 'Безалкогольный микс лайма, мяты и тростникового сиропа со льдом.', price: '190 ₽', imageUrl: 'https://images.unsplash.com/photo-1505253216365-8b0c5ab5e530?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Черносмородиновый Фреш', description: 'Яркий ягодный напиток с легкой кислинкой и ароматным базиликом.', price: '170 ₽', imageUrl: 'https://images.unsplash.com/photo-1546172350-95698e1fe69c?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Холодный Чай Персик', description: 'Холодный чай с соком спелого персика и ломтиками лимона.', price: '160 ₽', imageUrl: 'https://images.unsplash.com/photo-1464306076886-da185f07f21e?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Домашний Компот', description: 'Классический ягодный напиток на основе вишни и черной смородины.', price: '140 ₽', imageUrl: 'https://images.unsplash.com/photo-1527169403832-66471c5e9733?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Фирменный Смузи', description: 'Клубника, банан и миндальное молоко с колотым льдом.', price: '210 ₽', imageUrl: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1920&auto=format&fit=crop' }
+          ]
+        },
+        {
+          id: 'sides',
+          title: 'Дополнительные блюда',
+          description: 'Горячие снеки к пицце: хрустящие, ароматные и готовые к любимым соусам.',
+          items: [
+            { name: 'Картофель Фри', description: 'Золотистая картошка с морской солью и перцем.', price: '150 ₽', imageUrl: 'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Картофель по-Деревенски', description: 'Крупные ломтики картофеля с розмарином и чесночным маслом.', price: '160 ₽', imageUrl: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Куриные Наггетсы', description: 'Сочные кусочки курицы в панировке, подаем с соусом барбекю.', price: '210 ₽', imageUrl: 'https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Луковые Колечки', description: 'Обжаренные до хруста кольца сладкого лука с соусом ранч.', price: '180 ₽', imageUrl: 'https://images.unsplash.com/photo-1604908177453-fb4b8c9e61c4?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Крылышки BBQ', description: 'Пикантные куриные крылышки в дымном соусе барбекю.', price: '260 ₽', imageUrl: 'https://images.unsplash.com/photo-1608039855811-6c12d96a3a25?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Жареный Сыр Халлуми', description: 'Румяные ломтики халлуми с соусом свит-чили.', price: '240 ₽', imageUrl: 'https://images.unsplash.com/photo-1612874472326-1010d32752d5?q=80&w=1920&auto=format&fit=crop' }
+          ]
+        },
+        {
+          id: 'salads',
+          title: 'Салаты',
+          description: 'Свежие и легкие салаты, которые станут идеальным дополнением к заказу.',
+          items: [
+            { name: 'Греческий', description: 'Хрустящие овощи, фета, оливки и оливковое масло первого отжима.', price: '230 ₽', imageUrl: 'https://images.unsplash.com/photo-1568600891621-2b1e38c79f3a?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Цезарь с Курицей', description: 'Фирменный соус, куриное филе, пармезан и хрустящие крутоны.', price: '260 ₽', imageUrl: 'https://images.unsplash.com/photo-1546069901-eacef0df6022?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Овощной Хрустящий', description: 'Свежие огурцы, редис, зелень и легкая сметанная заправка.', price: '190 ₽', imageUrl: 'https://images.unsplash.com/photo-1550418290-a8d86ad674a3?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Салат с Киноа', description: 'Киноа, авокадо, шпинат и цитрусовая заправка.', price: '280 ₽', imageUrl: 'https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Табуле', description: 'Булгур, мята, петрушка и сок лимона в освежающем миксе.', price: '220 ₽', imageUrl: 'https://images.unsplash.com/photo-1569058242323-354a4d74c91a?q=80&w=1920&auto=format&fit=crop' },
+            { name: 'Свекла и Фета', description: 'Печеная свекла, фета и карамелизированные орехи с бальзамиком.', price: '240 ₽', imageUrl: 'https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1920&auto=format&fit=crop' }
+          ]
+        }
       ];
 
       const Menu = () => {
         return (
           React.createElement("section", { id: "menu", className: "py-20 bg-gray-900" },
-            React.createElement("div", { className: "container mx-auto px-6 text-center" },
-              React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-2" }, "Наше Меню"),
-              React.createElement("p", { className: "text-lg text-gray-400 mb-12 max-w-2xl mx-auto" }, "Попробуйте наши хиты, созданные по секретным рецептам нашего шеф-повара."),
-              React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" },
-                signaturePizzas.map((pizza, index) => React.createElement(PizzaCard, { key: index, ...pizza }))
+            React.createElement("div", { className: "container mx-auto px-6" },
+              React.createElement("div", { className: "text-center" },
+                React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-2" }, "Наше меню"),
+                React.createElement("p", { className: "text-lg text-gray-400 mb-12 max-w-2xl mx-auto" }, "Подберите блюдо к настроению: пробуйте новинки, сочетайте вкусы и собирайте идеальный заказ.")
+              ),
+              menuSections.map((section) =>
+                React.createElement("div", { key: section.id, className: "mt-16" },
+                  React.createElement("div", { className: "flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8" },
+                    React.createElement("h3", { className: "text-3xl font-display font-bold text-white uppercase" }, section.title),
+                    React.createElement("p", { className: "text-gray-400 md:w-1/2 leading-relaxed" }, section.description)
+                  ),
+                  React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" },
+                    section.items.map((item, index) =>
+                      React.createElement(MenuItemCard, { key: `${section.id}-${index}`, ...item, category: section.title })
+                    )
+                  )
+                )
               )
             )
           )
