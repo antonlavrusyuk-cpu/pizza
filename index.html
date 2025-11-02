@@ -182,12 +182,17 @@
         );
       };
 
-      const CartDrawer = ({ isOpen, items, total, onClose, onIncrease, onDecrease, onRemove }) => {
+      const CartDrawer = ({ isOpen, items, total, onClose, onIncrease, onDecrease, onRemove, onCheckout }) => {
         if (!isOpen) {
           return null;
         }
 
         const hasItems = items.length > 0;
+        const handleCheckout = () => {
+          if (hasItems && typeof onCheckout === 'function') {
+            onCheckout();
+          }
+        };
 
         return (
           React.createElement(React.Fragment, null,
@@ -252,8 +257,134 @@
                 React.createElement("button", {
                   type: "button",
                   disabled: !hasItems,
+                  onClick: handleCheckout,
                   className: `w-full bg-red-600 text-white font-display font-bold uppercase py-4 rounded-full transition-colors duration-300 shadow-lg ${hasItems ? 'hover:bg-red-700' : 'opacity-40 cursor-not-allowed'}`
                 }, "Оформить заказ")
+              )
+            )
+          )
+        );
+      };
+
+      const CheckoutModal = ({ isOpen, items, total, onClose, onConfirm }) => {
+        const [formState, setFormState] = useState({ phone: '', address: '' });
+        const [errors, setErrors] = useState({ phone: '', address: '' });
+
+        useEffect(() => {
+          if (!isOpen) {
+            setFormState({ phone: '', address: '' });
+            setErrors({ phone: '', address: '' });
+          }
+        }, [isOpen]);
+
+        const validate = () => {
+          const nextErrors = { phone: '', address: '' };
+          const trimmedPhone = formState.phone.trim();
+          const trimmedAddress = formState.address.trim();
+
+          if (!trimmedPhone) {
+            nextErrors.phone = 'Укажите номер телефона';
+          } else if (!/^[+\d][\d\s()-]{6,}$/.test(trimmedPhone)) {
+            nextErrors.phone = 'Введите корректный номер';
+          }
+
+          if (!trimmedAddress) {
+            nextErrors.address = 'Укажите адрес доставки';
+          }
+
+          setErrors(nextErrors);
+          return !nextErrors.phone && !nextErrors.address;
+        };
+
+        const handleSubmit = (event) => {
+          event.preventDefault();
+          if (!validate()) {
+            return;
+          }
+
+          if (typeof onConfirm === 'function') {
+            onConfirm({
+              phone: formState.phone.trim(),
+              address: formState.address.trim()
+            });
+          }
+        };
+
+        const handleChange = (field) => (event) => {
+          setFormState((prev) => ({ ...prev, [field]: event.target.value }));
+        };
+
+        if (!isOpen) {
+          return null;
+        }
+
+        return (
+          React.createElement(React.Fragment, null,
+            React.createElement("div", { className: "fixed inset-0 bg-black/70 backdrop-blur-sm z-40", onClick: onClose }),
+            React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center px-4" },
+              React.createElement("div", { className: "w-full max-w-lg bg-gray-900 rounded-3xl shadow-2xl border border-gray-800 overflow-hidden" },
+                React.createElement("div", { className: "px-8 py-6 border-b border-gray-800 flex items-center justify-between" },
+                  React.createElement("h3", { className: "text-2xl font-display font-bold uppercase text-white" }, "Оформление заказа"),
+                  React.createElement("button", {
+                    type: "button",
+                    onClick: onClose,
+                    className: "text-gray-400 hover:text-white transition-colors duration-200"
+                  },
+                    React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", strokeWidth: 1.5, stroke: "currentColor", className: "w-6 h-6" },
+                      React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M6 18L18 6M6 6l12 12" })
+                    )
+                  )
+                ),
+                React.createElement("form", { onSubmit: handleSubmit, className: "px-8 py-6 space-y-5" },
+                  React.createElement("div", { className: "space-y-2" },
+                    React.createElement("label", { className: "block text-sm font-semibold uppercase text-gray-300 tracking-wide" }, "Телефон"),
+                    React.createElement("input", {
+                      type: "tel",
+                      value: formState.phone,
+                      onChange: handleChange('phone'),
+                      placeholder: "+7 (999) 123-45-67",
+                      className: `w-full bg-gray-800 border ${errors.phone ? 'border-red-500' : 'border-gray-700'} focus:border-red-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 transition-colors duration-200 outline-none`
+                    }),
+                    errors.phone && React.createElement("p", { className: "text-sm text-red-500" }, errors.phone)
+                  ),
+                  React.createElement("div", { className: "space-y-2" },
+                    React.createElement("label", { className: "block text-sm font-semibold uppercase text-gray-300 tracking-wide" }, "Адрес доставки"),
+                    React.createElement("textarea", {
+                      value: formState.address,
+                      onChange: handleChange('address'),
+                      rows: 3,
+                      placeholder: "Город, улица, дом, подъезд, квартира",
+                      className: `w-full bg-gray-800 border ${errors.address ? 'border-red-500' : 'border-gray-700'} focus:border-red-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 transition-colors duration-200 outline-none resize-none`
+                    }),
+                    errors.address && React.createElement("p", { className: "text-sm text-red-500" }, errors.address)
+                  ),
+                  React.createElement("div", { className: "bg-gray-800/60 rounded-2xl p-4 space-y-3" },
+                    React.createElement("h4", { className: "text-sm font-semibold uppercase text-gray-400 tracking-wide" }, "Ваш заказ"),
+                    React.createElement("div", { className: "space-y-2 max-h-40 overflow-y-auto pr-1" },
+                      items.map((item) =>
+                        React.createElement("div", { key: item.name, className: "flex justify-between text-sm text-gray-300" },
+                          React.createElement("span", null, `${item.name} × ${item.quantity}`),
+                          React.createElement("span", { className: "text-gray-100" }, item.priceLabel)
+                        )
+                      )
+                    ),
+                    React.createElement("div", { className: "flex items-center justify-between text-base font-semibold text-white" },
+                      React.createElement("span", null, "Итого"),
+                      React.createElement("span", null, total)
+                    )
+                  ),
+                  React.createElement("div", { className: "flex flex-col sm:flex-row gap-3 pt-2" },
+                    React.createElement("button", {
+                      type: "submit",
+                      className: "flex-1 bg-red-600 hover:bg-red-700 text-white font-display font-bold uppercase py-3 rounded-full transition-colors duration-300 shadow-lg"
+                    }, "Отправить заказ"),
+                    React.createElement("button", {
+                      type: "button",
+                      onClick: onClose,
+                      className: "flex-1 border border-gray-700 hover:border-red-600 text-gray-300 hover:text-white font-semibold py-3 rounded-full transition-colors duration-300"
+                    }, "Отмена")
+                  )
+                )
               )
             )
           )
@@ -529,6 +660,7 @@
         const [isCartOpen, setIsCartOpen] = useState(false);
         const [isToastVisible, setIsToastVisible] = useState(false);
         const [recentlyAddedItem, setRecentlyAddedItem] = useState("");
+        const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
 
         const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
         const cartTotalValue = cartItems.reduce((acc, item) => acc + item.priceValue * item.quantity, 0);
@@ -596,6 +728,11 @@
 
         const openCart = () => setIsCartOpen(true);
         const closeCart = () => setIsCartOpen(false);
+        const openCheckout = () => {
+          setIsCartOpen(false);
+          setIsCheckoutOpen(true);
+        };
+        const closeCheckout = () => setIsCheckoutOpen(false);
 
         const handleViewCart = () => {
           openCart();
@@ -604,6 +741,27 @@
 
         const handleContinueShopping = () => {
           setIsToastVisible(false);
+        };
+
+        const handleCheckoutConfirm = ({ phone, address }) => {
+          const subject = "Новый заказ Big Pizza";
+          const orderLines = cartItems.map((item) => `${item.name} — ${item.quantity} шт. × ${item.priceLabel}`);
+          const bodyLines = [
+            "Новый заказ Big Pizza",
+            "",
+            `Телефон: ${phone}`,
+            `Адрес: ${address}`,
+            "",
+            "Позиции:",
+            orderLines.length ? orderLines.join("\n") : "Корзина пуста",
+            "",
+            `Итого: ${cartTotalLabel}`
+          ];
+
+          const mailtoLink = `mailto:mircrew279@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
+
+          window.location.href = mailtoLink;
+          setIsCheckoutOpen(false);
         };
 
         return (
@@ -630,7 +788,15 @@
               onClose: closeCart,
               onIncrease: (itemName) => updateItemQuantity(itemName, 1),
               onDecrease: (itemName) => updateItemQuantity(itemName, -1),
-              onRemove: handleRemoveItem
+              onRemove: handleRemoveItem,
+              onCheckout: openCheckout
+            }),
+            React.createElement(CheckoutModal, {
+              isOpen: isCheckoutOpen,
+              items: cartItems,
+              total: cartTotalLabel,
+              onClose: closeCheckout,
+              onConfirm: handleCheckoutConfirm
             })
           )
         );
