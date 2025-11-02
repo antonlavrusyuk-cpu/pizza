@@ -92,7 +92,13 @@
       };
 
       // --- Component: MenuItemCard ---
-      const MenuItemCard = ({ name, description, price, imageUrl, category }) => {
+      const MenuItemCard = ({ name, description, price, imageUrl, category, onAddToCart }) => {
+        const handleAddToCart = () => {
+          if (typeof onAddToCart === 'function') {
+            onAddToCart({ name, price, imageUrl });
+          }
+        };
+
         return (
           React.createElement("div", { className: "group bg-gray-800 rounded-xl overflow-hidden shadow-lg transform hover:scale-105 transition-transform duration-300 flex flex-col h-full text-left" },
             React.createElement("div", { className: "relative" },
@@ -102,7 +108,11 @@
                 alt: `${category ? category : 'Блюдо'} ${name}`
               }),
               React.createElement("div", { className: "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" },
-                React.createElement("button", { className: "bg-red-600 text-white font-bold font-display text-lg uppercase py-3 px-8 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg transform hover:scale-105" },
+                React.createElement("button", {
+                  type: "button",
+                  onClick: handleAddToCart,
+                  className: "bg-red-600 text-white font-bold font-display text-lg uppercase py-3 px-8 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg transform hover:scale-105"
+                },
                   "В корзину"
                 )
               )
@@ -110,10 +120,140 @@
             React.createElement("div", { className: "p-6 flex flex-col flex-grow" },
               React.createElement("h3", { className: "font-bold font-display text-2xl text-white mb-2 uppercase" }, name),
               React.createElement("p", { className: "text-gray-400 text-base flex-grow mb-4" }, description),
-              React.createElement("div", { className: "mt-auto" },
-                React.createElement("span", { className: "inline-block bg-red-600 rounded-full px-4 py-2 text-lg font-bold text-white" },
+              React.createElement("div", { className: "mt-auto flex flex-col gap-3" },
+                React.createElement("span", { className: "inline-block bg-red-600 rounded-full px-4 py-2 text-lg font-bold text-white text-center" },
                   price
+                ),
+                React.createElement("button", {
+                  type: "button",
+                  onClick: handleAddToCart,
+                  className: "md:hidden bg-red-600 text-white font-bold font-display uppercase py-3 px-4 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg"
+                }, "В корзину")
+              )
+            )
+          )
+        );
+      };
+
+      const parsePriceValue = (label) => {
+        const numeric = parseInt(String(label).replace(/\D/g, ''), 10);
+        return Number.isNaN(numeric) ? 0 : numeric;
+      };
+
+      const currencyFormatter = new Intl.NumberFormat('ru-RU', {
+        style: 'currency',
+        currency: 'RUB',
+        maximumFractionDigits: 0
+      });
+
+      const CartIcon = () => (
+        React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", strokeWidth: 1.5, stroke: "currentColor", className: "w-6 h-6" },
+          React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25h9.75a1.5 1.5 0 001.47-1.185l1.17-6.3a1.125 1.125 0 00-1.104-1.365H5.013" }),
+          React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M7.5 14.25L5.106 5.272m0 0L4.125 2.25M16.5 21a1.125 1.125 0 11-2.25 0 1.125 1.125 0 012.25 0zm-8.25 0a1.125 1.125 0 11-2.25 0 1.125 1.125 0 012.25 0z" })
+        )
+      );
+
+      const CartToast = ({ isVisible, itemName, onViewCart, onContinue }) => {
+        if (!isVisible) {
+          return null;
+        }
+
+        const productLabel = itemName || "Позиция";
+
+        return (
+          React.createElement("div", { className: "fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900/95 border border-red-600 rounded-2xl shadow-2xl px-6 py-4 flex flex-col md:flex-row md:items-center gap-4 z-50 max-w-xl w-[92%]" },
+            React.createElement("div", { className: "flex-1 text-center md:text-left" },
+              React.createElement("p", { className: "text-white font-semibold" }, `${productLabel} добавлена в корзину`),
+              React.createElement("p", { className: "text-sm text-gray-400 mt-1" }, "Продолжите выбор или оформите заказ прямо сейчас.")
+            ),
+            React.createElement("div", { className: "flex flex-col sm:flex-row gap-3 w-full md:w-auto" },
+              React.createElement("button", {
+                type: "button",
+                onClick: onViewCart,
+                className: "w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold font-display uppercase px-5 py-3 rounded-full transition-colors duration-300 shadow-lg"
+              }, "Перейти в корзину"),
+              React.createElement("button", {
+                type: "button",
+                onClick: onContinue,
+                className: "w-full sm:w-auto bg-transparent border border-gray-600 hover:border-red-600 text-gray-200 hover:text-white font-semibold px-5 py-3 rounded-full transition-colors duration-300"
+              }, "Продолжить выбор")
+            )
+          )
+        );
+      };
+
+      const CartDrawer = ({ isOpen, items, total, onClose, onIncrease, onDecrease, onRemove }) => {
+        if (!isOpen) {
+          return null;
+        }
+
+        const hasItems = items.length > 0;
+
+        return (
+          React.createElement(React.Fragment, null,
+            React.createElement("div", { className: "fixed inset-0 bg-black/60 backdrop-blur-sm z-40", onClick: onClose }),
+            React.createElement("aside", { className: "fixed right-0 top-0 h-full w-full max-w-md bg-gray-900 z-50 shadow-2xl flex flex-col" },
+              React.createElement("div", { className: "px-6 py-5 border-b border-gray-800 flex items-center justify-between" },
+                React.createElement("h3", { className: "text-2xl font-display font-bold uppercase text-white" }, "Корзина"),
+                React.createElement("button", {
+                  type: "button",
+                  onClick: onClose,
+                  className: "text-gray-400 hover:text-white transition-colors duration-200"
+                },
+                  React.createElement("svg", { xmlns: "http://www.w3.org/2000/svg", fill: "none", viewBox: "0 0 24 24", strokeWidth: 1.5, stroke: "currentColor", className: "w-6 h-6" },
+                    React.createElement("path", { strokeLinecap: "round", strokeLinejoin: "round", d: "M6 18L18 6M6 6l12 12" })
+                  )
                 )
+              ),
+              React.createElement("div", { className: "flex-1 overflow-y-auto px-6 py-6 space-y-4" },
+                hasItems ?
+                  items.map((item) =>
+                    React.createElement("div", { key: item.name, className: "flex items-center gap-4 bg-gray-800/70 rounded-2xl p-4" },
+                      React.createElement("img", {
+                        src: item.imageUrl,
+                        alt: item.name,
+                        className: "w-20 h-20 rounded-xl object-cover"
+                      }),
+                      React.createElement("div", { className: "flex-1" },
+                        React.createElement("h4", { className: "font-display font-semibold text-lg text-white uppercase" }, item.name),
+                        React.createElement("p", { className: "text-sm text-gray-400 mt-1" }, item.priceLabel)
+                      ),
+                      React.createElement("div", { className: "flex flex-col items-center gap-2" },
+                        React.createElement("div", { className: "flex items-center gap-2" },
+                          React.createElement("button", {
+                            type: "button",
+                            onClick: () => onDecrease(item.name),
+                            className: "w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-red-600 text-white transition-colors duration-200"
+                          }, "–"),
+                          React.createElement("span", { className: "w-8 text-center font-semibold" }, item.quantity),
+                          React.createElement("button", {
+                            type: "button",
+                            onClick: () => onIncrease(item.name),
+                            className: "w-8 h-8 flex items-center justify-center rounded-full bg-gray-700 hover:bg-red-600 text-white transition-colors duration-200"
+                          }, "+")
+                        ),
+                        React.createElement("button", {
+                          type: "button",
+                          onClick: () => onRemove(item.name),
+                          className: "text-xs text-gray-400 hover:text-red-500 transition-colors duration-200"
+                        }, "Удалить")
+                      )
+                    )
+                  ) :
+                  React.createElement("div", { className: "text-center text-gray-400 py-20" },
+                    React.createElement("p", { className: "text-lg" }, "Ваша корзина пока пуста. Выберите что-нибудь вкусное!")
+                  )
+              ),
+              React.createElement("div", { className: "px-6 py-6 border-t border-gray-800 space-y-4" },
+                React.createElement("div", { className: "flex items-center justify-between text-lg font-semibold text-white" },
+                  React.createElement("span", null, "Итого:"),
+                  React.createElement("span", null, total)
+                ),
+                React.createElement("button", {
+                  type: "button",
+                  disabled: !hasItems,
+                  className: `w-full bg-red-600 text-white font-display font-bold uppercase py-4 rounded-full transition-colors duration-300 shadow-lg ${hasItems ? 'hover:bg-red-700' : 'opacity-40 cursor-not-allowed'}`
+                }, "Оформить заказ")
               )
             )
           )
@@ -189,7 +329,7 @@
         }
       ];
 
-      const MenuHits = () => {
+      const MenuHits = ({ onAddToCart }) => {
         return (
           React.createElement("section", { id: "hits", className: "py-20 bg-gray-900" },
             React.createElement("div", { className: "container mx-auto px-6 text-center" },
@@ -199,7 +339,7 @@
               ),
               React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" },
                 signaturePizzas.map((pizza, index) =>
-                  React.createElement(MenuItemCard, { key: `hit-${index}`, ...pizza, category: "Хиты" })
+                  React.createElement(MenuItemCard, { key: `hit-${index}`, ...pizza, category: "Хиты", onAddToCart })
                 )
               )
             )
@@ -207,7 +347,7 @@
         );
       };
 
-      const MenuCategories = () => {
+      const MenuCategories = ({ onAddToCart }) => {
         const [activeCategory, setActiveCategory] = useState(menuCategories[0].id);
         const currentCategory = menuCategories.find((category) => category.id === activeCategory) || menuCategories[0];
 
@@ -229,7 +369,7 @@
               ),
               React.createElement("div", { className: "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" },
                 currentCategory.items.map((item, index) =>
-                  React.createElement(MenuItemCard, { key: `${currentCategory.id}-${index}`, ...item, category: currentCategory.title })
+                  React.createElement(MenuItemCard, { key: `${currentCategory.id}-${index}`, ...item, category: currentCategory.title, onAddToCart })
                 )
               )
             )
@@ -302,7 +442,7 @@
         )
       );
 
-      const Header = () => {
+      const Header = ({ cartCount = 0, onCartClick = () => {} }) => {
         const [isOpen, setIsOpen] = useState(false);
         const [isScrolled, setIsScrolled] = useState(false);
 
@@ -334,9 +474,26 @@
                   "BIG ", React.createElement("span", { className: "text-red-600" }, "PIZZA")
                 ),
                 React.createElement("div", { className: "hidden md:flex items-center space-x-2" },
-                  navLinks.map((link) => React.createElement(NavLink, { key: link.href, href: link.href, onClick: () => {} }, link.label))
+                  navLinks.map((link) => React.createElement(NavLink, { key: link.href, href: link.href, onClick: () => {} }, link.label)),
+                  React.createElement("button", {
+                    type: "button",
+                    onClick: onCartClick,
+                    className: "relative inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-display font-bold uppercase text-sm px-4 py-2 rounded-full transition-colors duration-300 shadow-lg"
+                  },
+                    React.createElement(CartIcon, null),
+                    React.createElement("span", null, "Корзина"),
+                    cartCount > 0 && React.createElement("span", { className: "absolute -top-2 -right-2 min-w-[1.75rem] h-7 px-2 flex items-center justify-center rounded-full bg-white text-gray-900 text-xs font-extrabold" }, cartCount)
+                  )
                 ),
-                React.createElement("div", { className: "md:hidden" },
+                React.createElement("div", { className: "flex items-center gap-3 md:hidden" },
+                  React.createElement("button", {
+                    type: "button",
+                    onClick: onCartClick,
+                    className: "relative inline-flex items-center justify-center w-11 h-11 rounded-full bg-red-600 text-white shadow-lg hover:bg-red-700 transition-colors duration-300"
+                  },
+                    React.createElement(CartIcon, null),
+                    cartCount > 0 && React.createElement("span", { className: "absolute -top-1.5 -right-1.5 w-6 h-6 rounded-full bg-white text-gray-900 text-xs font-extrabold flex items-center justify-center" }, cartCount)
+                  ),
                   React.createElement("button", { onClick: toggleMenu, className: "text-white focus:outline-none" },
                     React.createElement("svg", { className: "w-8 h-8", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", xmlns: "http://www.w3.org/2000/svg" },
                       isOpen ?
@@ -349,7 +506,15 @@
               isOpen && (
                 React.createElement("div", { className: "md:hidden mt-4 bg-gray-800 rounded-lg" },
                   React.createElement("div", { className: "flex flex-col items-center space-y-2 py-2" },
-                    navLinks.map((link) => React.createElement(NavLink, { key: link.href, href: link.href, onClick: closeMenu }, link.label))
+                    navLinks.map((link) => React.createElement(NavLink, { key: link.href, href: link.href, onClick: closeMenu }, link.label)),
+                    React.createElement("button", {
+                      type: "button",
+                      onClick: () => { closeMenu(); if (typeof onCartClick === 'function') { onCartClick(); } },
+                      className: "w-[90%] flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-display font-bold uppercase text-sm px-4 py-3 rounded-full transition-colors duration-300 shadow-lg"
+                    },
+                      React.createElement(CartIcon, null),
+                      React.createElement("span", null, cartCount > 0 ? `Корзина (${cartCount})` : "Корзина")
+                    )
                   )
                 )
               )
@@ -360,17 +525,113 @@
       
       // --- Component: App ---
       const App = () => {
+        const [cartItems, setCartItems] = useState([]);
+        const [isCartOpen, setIsCartOpen] = useState(false);
+        const [isToastVisible, setIsToastVisible] = useState(false);
+        const [recentlyAddedItem, setRecentlyAddedItem] = useState("");
+
+        const cartItemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        const cartTotalValue = cartItems.reduce((acc, item) => acc + item.priceValue * item.quantity, 0);
+        const cartTotalLabel = currencyFormatter.format(cartTotalValue);
+
+        const handleAddToCart = ({ name, price, imageUrl }) => {
+          setCartItems((prevItems) => {
+            const existingItem = prevItems.find((item) => item.name === name);
+
+            if (existingItem) {
+              return prevItems.map((item) =>
+                item.name === name ? { ...item, quantity: item.quantity + 1 } : item
+              );
+            }
+
+            return [
+              ...prevItems,
+              {
+                name,
+                priceLabel: price,
+                priceValue: parsePriceValue(price),
+                imageUrl,
+                quantity: 1
+              }
+            ];
+          });
+
+          setRecentlyAddedItem(name);
+          setIsToastVisible(true);
+        };
+
+        const updateItemQuantity = (itemName, delta) => {
+          setCartItems((prevItems) => {
+            return prevItems.reduce((acc, item) => {
+              if (item.name !== itemName) {
+                acc.push(item);
+                return acc;
+              }
+
+              const updatedQuantity = item.quantity + delta;
+              if (updatedQuantity > 0) {
+                acc.push({ ...item, quantity: updatedQuantity });
+              }
+
+              return acc;
+            }, []);
+          });
+        };
+
+        const handleRemoveItem = (itemName) => {
+          setCartItems((prevItems) => prevItems.filter((item) => item.name !== itemName));
+        };
+
+        useEffect(() => {
+          if (!isToastVisible) {
+            return;
+          }
+
+          const timer = setTimeout(() => {
+            setIsToastVisible(false);
+          }, 4000);
+
+          return () => clearTimeout(timer);
+        }, [isToastVisible]);
+
+        const openCart = () => setIsCartOpen(true);
+        const closeCart = () => setIsCartOpen(false);
+
+        const handleViewCart = () => {
+          openCart();
+          setIsToastVisible(false);
+        };
+
+        const handleContinueShopping = () => {
+          setIsToastVisible(false);
+        };
+
         return (
-          React.createElement("div", { className: "bg-gray-900" },
-            React.createElement(Header, null),
+          React.createElement("div", { className: "bg-gray-900 min-h-screen" },
+            React.createElement(Header, { cartCount: cartItemCount, onCartClick: openCart }),
             React.createElement("main", null,
               React.createElement(Hero, null),
-              React.createElement(MenuHits, null),
+              React.createElement(MenuHits, { onAddToCart: handleAddToCart }),
               React.createElement(About, null),
-              React.createElement(MenuCategories, null),
+              React.createElement(MenuCategories, { onAddToCart: handleAddToCart }),
               React.createElement(Contact, null)
             ),
-            React.createElement(Footer, null)
+            React.createElement(Footer, null),
+            React.createElement(CartToast, {
+              isVisible: isToastVisible,
+              itemName: recentlyAddedItem,
+              onViewCart: handleViewCart,
+              onContinue: handleContinueShopping
+            }),
+            React.createElement(CartDrawer, {
+              isOpen: isCartOpen,
+              items: cartItems,
+              total: cartTotalLabel,
+              onClose: closeCart,
+              onIncrease: (itemName) => updateItemQuantity(itemName, 1),
+              onDecrease: (itemName) => updateItemQuantity(itemName, -1),
+              onRemove: handleRemoveItem
+            })
           )
         );
       };
