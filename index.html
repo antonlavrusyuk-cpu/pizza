@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Big Pizza - Каждый кусок — большое удовольствие</title>
+    <title>Big Pizza SF — Every Slice, Pure Bay Joy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,8 +37,8 @@
         return (
           React.createElement("footer", { className: "bg-black py-6" },
             React.createElement("div", { className: "container mx-auto px-6 text-center text-gray-500" },
-              React.createElement("p", null, `© ${new Date().getFullYear()} Big Pizza. Все права защищены.`),
-              React.createElement("p", { className: "text-sm mt-1" }, "Создано с ❤️ для любителей пиццы.")
+              React.createElement("p", null, `© ${new Date().getFullYear()} Big Pizza SF. All rights reserved.`),
+              React.createElement("p", { className: "text-sm mt-1" }, "Crafted with ❤️ for San Francisco pizza lovers.")
             )
           )
         );
@@ -72,17 +72,17 @@
         return (
           React.createElement("section", { id: "contact", className: "py-20 bg-gray-800" },
             React.createElement("div", { className: "container mx-auto px-6 text-center" },
-              React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-12" }, "Свяжитесь с нами"),
+              React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-12" }, "Get in Touch"),
               React.createElement("div", { className: "max-w-4xl mx-auto bg-gray-900 p-8 rounded-lg shadow-2xl" },
                   React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-10 text-left" },
-                      React.createElement(ContactInfoItem, { icon: React.createElement(LocationIcon), title: "Наш Адрес" },
-                          React.createElement("p", null, "ул. Главная, д. 123,"),
-                          React.createElement("p", null, "Москва, Россия"),
-                          React.createElement("a", { href: "#", className: "text-red-500 hover:underline mt-2 inline-block" }, "Показать на карте")
+                      React.createElement(ContactInfoItem, { icon: React.createElement(LocationIcon), title: "Visit Us" },
+                          React.createElement("p", null, "123 Market Street,"),
+                          React.createElement("p", null, "San Francisco, CA 94103"),
+                          React.createElement("a", { href: "https://maps.google.com/?q=123+Market+Street+San+Francisco", className: "text-red-500 hover:underline mt-2 inline-block", target: "_blank", rel: "noreferrer" }, "Open in Google Maps")
                       ),
-                      React.createElement(ContactInfoItem, { icon: React.createElement(ClockIcon), title: "Часы Работы" },
-                          React.createElement("p", null, React.createElement("span", { className: "font-semibold" }, "Пн - Пт:"), " 11:00 - 23:00"),
-                          React.createElement("p", null, React.createElement("span", { className: "font-semibold" }, "Сб - Вс:"), " 10:00 - 00:00")
+                      React.createElement(ContactInfoItem, { icon: React.createElement(ClockIcon), title: "Hours" },
+                          React.createElement("p", null, React.createElement("span", { className: "font-semibold" }, "Mon – Thu:"), " 10:30 AM – 10:00 PM"),
+                          React.createElement("p", null, React.createElement("span", { className: "font-semibold" }, "Fri – Sun:"), " 10:30 AM – 11:30 PM")
                       )
                   )
               )
@@ -105,7 +105,7 @@
               React.createElement("img", {
                 className: "w-full h-56 object-cover transition-all duration-300 group-hover:brightness-50",
                 src: imageUrl,
-                alt: `${category ? category : 'Блюдо'} ${name}`
+                alt: `${category ? category : 'Dish'} ${name}`
               }),
               React.createElement("div", { className: "absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300" },
                 React.createElement("button", {
@@ -113,7 +113,7 @@
                   onClick: handleAddToCart,
                   className: "bg-red-600 text-white font-bold font-display text-lg uppercase py-3 px-8 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg transform hover:scale-105"
                 },
-                  "В корзину"
+                  "Add to Cart"
                 )
               )
             ),
@@ -128,7 +128,7 @@
                   type: "button",
                   onClick: handleAddToCart,
                   className: "md:hidden bg-red-600 text-white font-bold font-display uppercase py-3 px-4 rounded-full hover:bg-red-700 transition-colors duration-300 shadow-lg"
-                }, "В корзину")
+                }, "Add to Cart")
               )
             )
           )
@@ -140,9 +140,9 @@
         return Number.isNaN(numeric) ? 0 : numeric;
       };
 
-      const currencyFormatter = new Intl.NumberFormat('ru-RU', {
+      const currencyFormatter = new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'RUB',
+        currency: 'USD',
         maximumFractionDigits: 0
       });
 
@@ -158,25 +158,25 @@
           return null;
         }
 
-        const productLabel = itemName || "Позиция";
+        const productLabel = itemName || "Item";
 
         return (
           React.createElement("div", { className: "fixed bottom-6 left-1/2 -translate-x-1/2 bg-gray-900/95 border border-red-600 rounded-2xl shadow-2xl px-6 py-4 flex flex-col md:flex-row md:items-center gap-4 z-50 max-w-xl w-[92%]" },
             React.createElement("div", { className: "flex-1 text-center md:text-left" },
-              React.createElement("p", { className: "text-white font-semibold" }, `${productLabel} добавлена в корзину`),
-              React.createElement("p", { className: "text-sm text-gray-400 mt-1" }, "Продолжите выбор или оформите заказ прямо сейчас.")
+              React.createElement("p", { className: "text-white font-semibold" }, `${productLabel} was added to your cart`),
+              React.createElement("p", { className: "text-sm text-gray-400 mt-1" }, "Keep exploring or jump into checkout whenever you're ready.")
             ),
             React.createElement("div", { className: "flex flex-col sm:flex-row gap-3 w-full md:w-auto" },
               React.createElement("button", {
                 type: "button",
                 onClick: onViewCart,
                 className: "w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white font-bold font-display uppercase px-5 py-3 rounded-full transition-colors duration-300 shadow-lg"
-              }, "Перейти в корзину"),
+              }, "View Cart"),
               React.createElement("button", {
                 type: "button",
                 onClick: onContinue,
                 className: "w-full sm:w-auto bg-transparent border border-gray-600 hover:border-red-600 text-gray-200 hover:text-white font-semibold px-5 py-3 rounded-full transition-colors duration-300"
-              }, "Продолжить выбор")
+              }, "Keep Browsing")
             )
           )
         );
@@ -199,7 +199,7 @@
             React.createElement("div", { className: "fixed inset-0 bg-black/60 backdrop-blur-sm z-40", onClick: onClose }),
             React.createElement("aside", { className: "fixed right-0 top-0 h-full w-full max-w-md bg-gray-900 z-50 shadow-2xl flex flex-col" },
               React.createElement("div", { className: "px-6 py-5 border-b border-gray-800 flex items-center justify-between" },
-                React.createElement("h3", { className: "text-2xl font-display font-bold uppercase text-white" }, "Корзина"),
+                React.createElement("h3", { className: "text-2xl font-display font-bold uppercase text-white" }, "Your Cart"),
                 React.createElement("button", {
                   type: "button",
                   onClick: onClose,
@@ -241,17 +241,17 @@
                           type: "button",
                           onClick: () => onRemove(item.name),
                           className: "text-xs text-gray-400 hover:text-red-500 transition-colors duration-200"
-                        }, "Удалить")
+                        }, "Remove")
                       )
                     )
                   ) :
                   React.createElement("div", { className: "text-center text-gray-400 py-20" },
-                    React.createElement("p", { className: "text-lg" }, "Ваша корзина пока пуста. Выберите что-нибудь вкусное!")
+                    React.createElement("p", { className: "text-lg" }, "Your cart is empty for now. Find something delicious to add!")
                   )
               ),
               React.createElement("div", { className: "px-6 py-6 border-t border-gray-800 space-y-4" },
                 React.createElement("div", { className: "flex items-center justify-between text-lg font-semibold text-white" },
-                  React.createElement("span", null, "Итого:"),
+                  React.createElement("span", null, "Subtotal:"),
                   React.createElement("span", null, total)
                 ),
                 React.createElement("button", {
@@ -259,7 +259,7 @@
                   disabled: !hasItems,
                   onClick: handleCheckout,
                   className: `w-full bg-red-600 text-white font-display font-bold uppercase py-4 rounded-full transition-colors duration-300 shadow-lg ${hasItems ? 'hover:bg-red-700' : 'opacity-40 cursor-not-allowed'}`
-                }, "Оформить заказ")
+                }, "Checkout")
               )
             )
           )
@@ -283,13 +283,13 @@
           const trimmedAddress = formState.address.trim();
 
           if (!trimmedPhone) {
-            nextErrors.phone = 'Укажите номер телефона';
+            nextErrors.phone = 'Please add a phone number';
           } else if (!/^[+\d][\d\s()-]{6,}$/.test(trimmedPhone)) {
-            nextErrors.phone = 'Введите корректный номер';
+            nextErrors.phone = 'Enter a valid phone number';
           }
 
           if (!trimmedAddress) {
-            nextErrors.address = 'Укажите адрес доставки';
+            nextErrors.address = 'Please add a delivery address';
           }
 
           setErrors(nextErrors);
@@ -324,7 +324,7 @@
             React.createElement("div", { className: "fixed inset-0 z-50 flex items-center justify-center px-4" },
               React.createElement("div", { className: "w-full max-w-lg bg-gray-900 rounded-3xl shadow-2xl border border-gray-800 overflow-hidden" },
                 React.createElement("div", { className: "px-8 py-6 border-b border-gray-800 flex items-center justify-between" },
-                  React.createElement("h3", { className: "text-2xl font-display font-bold uppercase text-white" }, "Оформление заказа"),
+                  React.createElement("h3", { className: "text-2xl font-display font-bold uppercase text-white" }, "Complete Your Order"),
                   React.createElement("button", {
                     type: "button",
                     onClick: onClose,
@@ -337,29 +337,29 @@
                 ),
                 React.createElement("form", { onSubmit: handleSubmit, className: "px-8 py-6 space-y-5" },
                   React.createElement("div", { className: "space-y-2" },
-                    React.createElement("label", { className: "block text-sm font-semibold uppercase text-gray-300 tracking-wide" }, "Телефон"),
+                    React.createElement("label", { className: "block text-sm font-semibold uppercase text-gray-300 tracking-wide" }, "Phone"),
                     React.createElement("input", {
                       type: "tel",
                       value: formState.phone,
                       onChange: handleChange('phone'),
-                      placeholder: "+7 (999) 123-45-67",
+                      placeholder: "(415) 555-0199",
                       className: `w-full bg-gray-800 border ${errors.phone ? 'border-red-500' : 'border-gray-700'} focus:border-red-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 transition-colors duration-200 outline-none`
                     }),
                     errors.phone && React.createElement("p", { className: "text-sm text-red-500" }, errors.phone)
                   ),
                   React.createElement("div", { className: "space-y-2" },
-                    React.createElement("label", { className: "block text-sm font-semibold uppercase text-gray-300 tracking-wide" }, "Адрес доставки"),
+                    React.createElement("label", { className: "block text-sm font-semibold uppercase text-gray-300 tracking-wide" }, "Delivery Address"),
                     React.createElement("textarea", {
                       value: formState.address,
                       onChange: handleChange('address'),
                       rows: 3,
-                      placeholder: "Город, улица, дом, подъезд, квартира",
+                      placeholder: "Neighborhood, street, unit number, delivery notes",
                       className: `w-full bg-gray-800 border ${errors.address ? 'border-red-500' : 'border-gray-700'} focus:border-red-600 rounded-xl px-4 py-3 text-white placeholder-gray-500 transition-colors duration-200 outline-none resize-none`
                     }),
                     errors.address && React.createElement("p", { className: "text-sm text-red-500" }, errors.address)
                   ),
                   React.createElement("div", { className: "bg-gray-800/60 rounded-2xl p-4 space-y-3" },
-                    React.createElement("h4", { className: "text-sm font-semibold uppercase text-gray-400 tracking-wide" }, "Ваш заказ"),
+                    React.createElement("h4", { className: "text-sm font-semibold uppercase text-gray-400 tracking-wide" }, "Your Order"),
                     React.createElement("div", { className: "space-y-2 max-h-40 overflow-y-auto pr-1" },
                       items.map((item) =>
                         React.createElement("div", { key: item.name, className: "flex justify-between text-sm text-gray-300" },
@@ -369,7 +369,7 @@
                       )
                     ),
                     React.createElement("div", { className: "flex items-center justify-between text-base font-semibold text-white" },
-                      React.createElement("span", null, "Итого"),
+                      React.createElement("span", null, "Subtotal"),
                       React.createElement("span", null, total)
                     )
                   ),
@@ -377,12 +377,12 @@
                     React.createElement("button", {
                       type: "submit",
                       className: "flex-1 bg-red-600 hover:bg-red-700 text-white font-display font-bold uppercase py-3 rounded-full transition-colors duration-300 shadow-lg"
-                    }, "Отправить заказ"),
+                    }, "Send Order"),
                     React.createElement("button", {
                       type: "button",
                       onClick: onClose,
                       className: "flex-1 border border-gray-700 hover:border-red-600 text-gray-300 hover:text-white font-semibold py-3 rounded-full transition-colors duration-300"
-                    }, "Отмена")
+                    }, "Cancel")
                   )
                 )
               )
@@ -393,69 +393,69 @@
 
       // --- Component: Menu ---
       const signaturePizzas = [
-        { name: "Пепперони Классик", description: "Идеальное сочетание пикантных колбасок пепперони, нежной моцареллы и нашего фирменного томатного соуса.", price: "550 ₽", imageUrl: "./Pizza pic/Пеперонни Классик.webp" },
-        { name: "Маргарита Премиум", description: "Королева пиццы: спелые томаты, свежий базилик, оливковое масло и много-много сливочной моцареллы.", price: "480 ₽", imageUrl: "./Pizza pic/Маргарита Премиум.jpg" },
-        { name: "Дьявола", description: "Для любителей острого: салями, острый перец халапеньо, красный лук и щедрая порция моцареллы.", price: "620 ₽", imageUrl: "./Pizza pic/Дьявола.jpg" },
-        { name: "Четыре Сыра", description: "Феерия вкуса для гурманов: гармоничное сочетание моцареллы, пармезана, дорблю и чеддера на нашем фирменном соусе.", price: "590 ₽", imageUrl: "./Pizza pic/Четыре сыра.webp" }
+        { name: "Pepperoni Classic", description: "Crisp-edge sourdough crust, spicy pepperoni, creamy mozzarella, and our house marinara inspired by North Beach staples.", price: "$22", imageUrl: "./Pizza pic/Пеперонни Классик.webp" },
+        { name: "Margherita Premium", description: "Sun-kissed tomatoes, fresh basil, California olive oil, and double mozzarella for a Mission District favorite.", price: "$19", imageUrl: "./Pizza pic/Маргарита Премиум.jpg" },
+        { name: "Diavola Heat", description: "Fiery salami, jalapeños, pickled red onions, and smoked mozzarella bring a SoMa kick to every slice.", price: "$24", imageUrl: "./Pizza pic/Дьявола.jpg" },
+        { name: "Four Cheese Symphony", description: "Mozzarella, parmesan, gorgonzola, and aged cheddar melt together over garlic cream for the ultimate indulgence.", price: "$23", imageUrl: "./Pizza pic/Четыре сыра.webp" }
       ];
 
       const menuCategories = [
         {
           id: "pizzas",
-          title: "Пиццы",
-          description: "Премиальные рецепты с акцентом на свежие ингредиенты и яркие вкусы. В подборке 10 хитов, включая фирменные позиции.",
+          title: "Pizzas",
+          description: "Bay Area-inspired pies featuring local produce, bold flavors, and hand-tossed sourdough. Choose a classic or discover a new favorite.",
           items: [
-            { name: "Римская", description: "Дымный бекон, маринованная говядина и фирменный соус барбекю на тонком тесте.", price: "550 ₽", imageUrl: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=1920&q=80" },
-            { name: "Баварская", description: "Хрустящий бекон, охотничьи колбаски и пикантная горчица под сырной корочкой.", price: "480 ₽", imageUrl: "./Pizza pic/Баварская.jpeg" },
-            { name: "Трюфельная Гурме", description: "Сливочный соус, шампиньоны, копченый сыр и капля трюфельного масла.", price: "620 ₽", imageUrl: "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&w=1920&q=80" },
-            { name: "Огненный Гриль", description: "Маринованный цыпленок, сладкий перец, кукуруза и жгучий соус чили.", price: "590 ₽", imageUrl: "./Pizza pic/Огненный гриль.jpg" },
-            { name: "Маргарита Премиум", description: "Томаты сан-марциано, моцарелла и свежий базилик на воздушном тонком тесте.", price: "390 ₽", imageUrl: "./Pizza pic/Маргарита Премиум.jpg" },
-            { name: "Пепперони Классик", description: "Идеальное сочетание пикантных колбасок пепперони, нежной моцареллы и нашего фирменного томатного соуса.", price: "550 ₽", imageUrl: "./Pizza pic/Пеперонни Классик.webp" },
-            { name: "Дьявола", description: "Для любителей острого: салями, острый перец халапеньо, красный лук и щедрая порция моцареллы.", price: "620 ₽", imageUrl: "./Pizza pic/Дьявола.jpg" },
-            { name: "Пепперони Острая", description: "Двойная порция пепперони, тянущаяся моцарелла и фирменный пикантный соус.", price: "420 ₽", imageUrl: "./Pizza pic/Пеперонни острая.jpg" },
-            { name: "Четыре Сыра", description: "Сочетание моцареллы, дорблю, пармезана и рикотты с акцентом трюфельного масла.", price: "510 ₽", imageUrl: "./Pizza pic/Четыре сыра.webp" },
-            { name: "Гавайская Тропик", description: "Легкая и сочная пицца с куриным филе, ананасом и сливочным соусом.", price: "450 ₽", imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1920&q=80" },
-            { name: "Песто и Томаты", description: "Ароматный соус песто, вяленые томаты, пармезан и свежая руккола.", price: "470 ₽", imageUrl: "https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?auto=format&fit=crop&w=1920&q=80" },
-            { name: "Вегетариана Прима", description: "Грилированные овощи, маслины, сладкий перец и фирменный томатный соус.", price: "430 ₽", imageUrl: "./Pizza pic/Вегетарианская Прима.jpeg" }
+            { name: "Roman Street Pie", description: "Smoky bacon, balsamic beef, and tangy barbecue sauce baked on a Roman-style thin crust.", price: "$21", imageUrl: "https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&w=1920&q=80" },
+            { name: "Bavarian Smokehouse", description: "Crispy bacon, bratwurst slices, whole-grain mustard, and caramelized onions under a cheddar melt.", price: "$20", imageUrl: "./Pizza pic/Баварская.jpeg" },
+            { name: "Truffle Gourmet", description: "Porcini cream, roasted mushrooms, smoked scamorza, and a drizzle of black truffle oil.", price: "$25", imageUrl: "https://images.unsplash.com/photo-1588315029754-2dd089d39a1a?auto=format&fit=crop&w=1920&q=80" },
+            { name: "Fiery Grill", description: "Charred chicken, sweet peppers, fire-roasted corn, and Calabrian chili glaze.", price: "$23", imageUrl: "./Pizza pic/Огненный гриль.jpg" },
+            { name: "Margherita Premium", description: "Heirloom tomatoes, fresh basil, extra virgin olive oil, and mozzarella on a pillowy crust.", price: "$18", imageUrl: "./Pizza pic/Маргарита Премиум.jpg" },
+            { name: "Pepperoni Classic", description: "Double pepperoni, stretchy mozzarella, and our signature garlic marinara.", price: "$22", imageUrl: "./Pizza pic/Пеперонни Классик.webp" },
+            { name: "Diavola Heat", description: "Spicy salami, pickled fresno chiles, red onion, and smoked mozzarella.", price: "$24", imageUrl: "./Pizza pic/Дьявола.jpg" },
+            { name: "Spicy Pepperoni", description: "Extra pepperoni, Calabrian chile oil, and mozzarella with a hint of honey heat.", price: "$21", imageUrl: "./Pizza pic/Пеперонни острая.jpg" },
+            { name: "Four Cheese Symphony", description: "Mozzarella, parmesan, gorgonzola, and ricotta finished with white truffle essence.", price: "$23", imageUrl: "./Pizza pic/Четыре сыра.webp" },
+            { name: "Pacific Hawaiian", description: "Roasted chicken, grilled pineapple, smoked ham, and coconut-lime crema.", price: "$20", imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1920&q=80" },
+            { name: "Pesto & Heirloom Tomato", description: "Basil pesto, sun-dried tomatoes, arugula, and shaved parmesan.", price: "$19", imageUrl: "https://images.unsplash.com/photo-1528137871618-79d2761e3fd5?auto=format&fit=crop&w=1920&q=80" },
+            { name: "Vegetarian Prima", description: "Grilled seasonal vegetables, olives, bell pepper, and our tomato sugo.", price: "$18", imageUrl: "./Pizza pic/Вегетарианская Прима.jpeg" }
           ]
         },
         {
           id: "drinks",
-          title: "Напитки",
-          description: "Освежающие безалкогольные напитки, которые подчеркнут вкус пиццы и помогут утолить жажду.",
+          title: "Drinks",
+          description: "House-made refreshments and West Coast favorites to keep the Golden Gate breeze going.",
           items: [
-            { name: "Лимонад Цитрусовый", description: "Апельсин, лайм и грейпфрут на основе газированной воды и свежей мяты.", price: "180 ₽", imageUrl: "https://images.unsplash.com/photo-1527169402691-feff5539e52c?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Мохито Классический", description: "Безалкогольный микс лайма, мяты и тростникового сиропа со льдом.", price: "190 ₽", imageUrl: "https://images.unsplash.com/photo-1505253216365-8b0c5ab5e530?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Черносмородиновый Фреш", description: "Яркий ягодный напиток с легкой кислинкой и ароматным базиликом.", price: "170 ₽", imageUrl: "https://images.unsplash.com/photo-1546172350-95698e1fe69c?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Холодный Чай Персик", description: "Холодный чай с соком спелого персика и ломтиками лимона.", price: "160 ₽", imageUrl: "https://images.unsplash.com/photo-1464306076886-da185f07f21e?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Домашний Компот", description: "Классический ягодный напиток на основе вишни и черной смородины.", price: "140 ₽", imageUrl: "https://images.unsplash.com/photo-1527169403832-66471c5e9733?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Фирменный Смузи", description: "Клубника, банан и миндальное молоко с колотым льдом.", price: "210 ₽", imageUrl: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1920&auto=format&fit=crop" }
+            { name: "Citrus Lemonade", description: "Orange, lime, and grapefruit over sparkling water with fresh mint.", price: "$6", imageUrl: "https://images.unsplash.com/photo-1527169402691-feff5539e52c?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Classic Nojito", description: "Zero-proof lime, mint, and cane sugar over crushed ice.", price: "$6", imageUrl: "https://images.unsplash.com/photo-1505253216365-8b0c5ab5e530?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Black Currant Spritz", description: "Tart berry refresher with basil and a hint of fizz.", price: "$5", imageUrl: "https://images.unsplash.com/photo-1546172350-95698e1fe69c?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Peach Iced Tea", description: "Brewed black tea with ripe peach nectar and lemon.", price: "$5", imageUrl: "https://images.unsplash.com/photo-1464306076886-da185f07f21e?q=80&w=1920&auto=format&fit=crop" },
+            { name: "House Berry Punch", description: "Cherry and blackcurrant cooler with a touch of vanilla.", price: "$4", imageUrl: "https://images.unsplash.com/photo-1527169403832-66471c5e9733?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Sunset Smoothie", description: "Strawberry, banana, and almond milk blended silky smooth.", price: "$7", imageUrl: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1920&auto=format&fit=crop" }
           ]
         },
         {
           id: "sides",
-          title: "Дополнительные блюда",
-          description: "Горячие снеки к пицце: хрустящие, ароматные и готовые к любимым соусам.",
+          title: "Sides",
+          description: "Golden, crispy bites ready for dipping — perfect for sharing on Dolores Park.",
           items: [
-            { name: "Картофель Фри", description: "Золотистая картошка с морской солью и перцем.", price: "150 ₽", imageUrl: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Картофель по-Деревенски", description: "Крупные ломтики картофеля с розмарином и чесночным маслом.", price: "160 ₽", imageUrl: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Куриные Наггетсы", description: "Сочные кусочки курицы в панировке, подаем с соусом барбекю.", price: "210 ₽", imageUrl: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Луковые Колечки", description: "Обжаренные до хруста кольца сладкого лука с соусом ранч.", price: "180 ₽", imageUrl: "https://images.unsplash.com/photo-1604908177453-fb4b8c9e61c4?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Крылышки BBQ", description: "Пикантные куриные крылышки в дымном соусе барбекю.", price: "260 ₽", imageUrl: "https://images.unsplash.com/photo-1608039855811-6c12d96a3a25?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Жареный Сыр Халлуми", description: "Румяные ломтики халлуми с соусом свит-чили.", price: "240 ₽", imageUrl: "https://images.unsplash.com/photo-1612874472326-1010d32752d5?q=80&w=1920&auto=format&fit=crop" }
+            { name: "Sea Salt Fries", description: "Hand-cut potatoes finished with flaky sea salt and cracked pepper.", price: "$7", imageUrl: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Garlic Ranch Wedges", description: "Roasted potato wedges with rosemary garlic butter.", price: "$8", imageUrl: "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Buttermilk Nuggets", description: "Crispy chicken bites with house barbecue sauce.", price: "$9", imageUrl: "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Onion Ring Stack", description: "Beer-battered sweet onions served with ranch.", price: "$8", imageUrl: "https://images.unsplash.com/photo-1604908177453-fb4b8c9e61c4?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Bay BBQ Wings", description: "Smoky chicken wings glazed in apricot-chipotle barbecue.", price: "$11", imageUrl: "https://images.unsplash.com/photo-1608039855811-6c12d96a3a25?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Fried Halloumi", description: "Seared halloumi with sweet chili sauce and herbs.", price: "$10", imageUrl: "https://images.unsplash.com/photo-1612874472326-1010d32752d5?q=80&w=1920&auto=format&fit=crop" }
           ]
         },
         {
           id: "salads",
-          title: "Салаты",
-          description: "Свежие и легкие салаты, которые станут идеальным дополнением к заказу.",
+          title: "Salads",
+          description: "Bright, fresh greens sourced from Bay Area farms to balance every slice.",
           items: [
-            { name: "Греческий", description: "Хрустящие овощи, фета, оливки и оливковое масло первого отжима.", price: "230 ₽", imageUrl: "https://images.unsplash.com/photo-1568600891621-2b1e38c79f3a?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Цезарь с Курицей", description: "Фирменный соус, куриное филе, пармезан и хрустящие крутоны.", price: "260 ₽", imageUrl: "https://images.unsplash.com/photo-1546069901-eacef0df6022?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Овощной Хрустящий", description: "Свежие огурцы, редис, зелень и легкая сметанная заправка.", price: "190 ₽", imageUrl: "https://images.unsplash.com/photo-1550418290-a8d86ad674a3?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Салат с Киноа", description: "Киноа, авокадо, шпинат и цитрусовая заправка.", price: "280 ₽", imageUrl: "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Табуле", description: "Булгур, мята, петрушка и сок лимона в освежающем миксе.", price: "220 ₽", imageUrl: "https://images.unsplash.com/photo-1569058242323-354a4d74c91a?q=80&w=1920&auto=format&fit=crop" },
-            { name: "Свекла и Фета", description: "Печеная свекла, фета и карамелизированные орехи с бальзамиком.", price: "240 ₽", imageUrl: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1920&auto=format&fit=crop" }
+            { name: "Downtown Greek", description: "Crisp veggies, feta, olives, and California olive oil.", price: "$12", imageUrl: "https://images.unsplash.com/photo-1568600891621-2b1e38c79f3a?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Chicken Caesar", description: "House-made dressing, grilled chicken, parmesan, and focaccia croutons.", price: "$13", imageUrl: "https://images.unsplash.com/photo-1546069901-eacef0df6022?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Crunchy Garden", description: "Cucumber, radish, herbs, and buttermilk dressing.", price: "$11", imageUrl: "https://images.unsplash.com/photo-1550418290-a8d86ad674a3?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Citrus Quinoa", description: "Quinoa, avocado, spinach, and citrus vinaigrette.", price: "$13", imageUrl: "https://images.unsplash.com/photo-1540420773420-3366772f4999?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Market Tabouli", description: "Bulgur, mint, parsley, and lemon zest.", price: "$11", imageUrl: "https://images.unsplash.com/photo-1569058242323-354a4d74c91a?q=80&w=1920&auto=format&fit=crop" },
+            { name: "Beet & Feta", description: "Roasted beets, feta, candied walnuts, and balsamic glaze.", price: "$12", imageUrl: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=1920&auto=format&fit=crop" }
           ]
         }
       ];
@@ -465,12 +465,12 @@
           React.createElement("section", { id: "hits", className: "py-20 bg-gray-900" },
             React.createElement("div", { className: "container mx-auto px-6 text-center" },
               React.createElement("div", { className: "text-center" },
-                React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-2" }, "Наши хиты"),
-                React.createElement("p", { className: "text-lg text-gray-400 mb-12 max-w-2xl mx-auto" }, "Четыре фаворита гостей Big Pizza: быстро раскупаются и всегда идеальны к любому настроению." )
+                React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-2" }, "House Favorites"),
+                React.createElement("p", { className: "text-lg text-gray-400 mb-12 max-w-2xl mx-auto" }, "San Francisco’s most-loved pies: they sell out fast and pair perfectly with foggy nights or sunny afternoons alike." )
               ),
               React.createElement("div", { className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10" },
                 signaturePizzas.map((pizza, index) =>
-                  React.createElement(MenuItemCard, { key: `hit-${index}`, ...pizza, category: "Хиты", onAddToCart })
+                  React.createElement(MenuItemCard, { key: `hit-${index}`, ...pizza, category: "Favorites", onAddToCart })
                 )
               )
             )
@@ -486,8 +486,8 @@
           React.createElement("section", { id: "menu", className: "py-20 bg-gray-800" },
             React.createElement("div", { className: "container mx-auto px-6" },
               React.createElement("div", { className: "text-center" },
-                React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-2" }, "Категории меню"),
-                React.createElement("p", { className: "text-lg text-gray-400 mb-10 max-w-2xl mx-auto" }, "Выберите раздел, чтобы быстро собрать заказ. Все категории — под рукой, а карточки компактны и информативны." )
+                React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-2" }, "Menu Categories"),
+                React.createElement("p", { className: "text-lg text-gray-400 mb-10 max-w-2xl mx-auto" }, "Pick a category to build your perfect order. Every section is curated for quick browsing and bold Bay Area flavor." )
               ),
               React.createElement("div", { className: "flex flex-wrap justify-center gap-3 mb-12" },
                 menuCategories.map((category) =>
@@ -517,17 +517,17 @@
                 React.createElement("div", { className: "md:w-1/2" },
                   React.createElement("img", {
                     src: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?q=80&w=1740&auto=format&fit=crop",
-                    alt: "Интерьер пиццерии Big Pizza с печью",
+                    alt: "Interior of Big Pizza SF with brick oven",
                     className: "rounded-lg shadow-2xl w-full"
                   })
                 ),
                 React.createElement("div", { className: "md:w-1/2" },
-                  React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-4" }, "Наша история"),
+                  React.createElement("h2", { className: "text-4xl font-bold font-display text-red-600 uppercase mb-4" }, "Our Story"),
                   React.createElement("p", { className: "text-gray-300 mb-4 leading-relaxed" },
-                    "«Big Pizza» родилась из семейной страсти к аутентичной итальянской кухне. Мы начали с маленькой печи на заднем дворе, совершенствуя рецепт теста и подбирая идеальные сочетания начинок. Наша мечта была проста: делиться радостью от вкусной еды с нашими друзьями и соседями."
+                    "Big Pizza SF was born from a family obsession with wood-fired pies and the city’s vibrant food scene. We started with a backyard oven in the Outer Sunset, perfecting sourdough crusts and California-forward toppings."
                   ),
                   React.createElement("p", { className: "text-gray-300 leading-relaxed" },
-                    "Сегодня «Big Pizza» — это место, где традиции встречаются с качеством. Мы используем только лучшие местные продукты, свежие овощи и настоящий сыр моцарелла. Каждая пицца готовится вручную и выпекается в каменной печи, чтобы вы могли насладиться тем самым, неповторимым вкусом."
+                    "Today we’re proud to serve the city where innovation meets flavor. We source from Bay Area farms, grate real mozzarella daily, and fire every pie to order. One bite and you’ll taste the spirit of San Francisco."
                   )
                 )
               )
@@ -547,16 +547,16 @@
             React.createElement("div", { className: "absolute top-0 left-0 w-full h-full bg-black bg-opacity-60" }),
             React.createElement("div", { className: "relative z-10 p-6" },
               React.createElement("h1", { className: "text-5xl md:text-7xl lg:text-8xl font-bold font-display uppercase tracking-wider leading-tight mb-4" },
-                "Каждый кусок — ", React.createElement("br", null),
-                React.createElement("span", { className: "text-red-600" }, "большое"), " удовольствие"
+                "Every Slice ", React.createElement("br", null),
+                React.createElement("span", { className: "text-red-600" }, "Feels Like San Francisco")
               ),
               React.createElement("p", { className: "text-lg md:text-xl max-w-2xl mx-auto mb-8 text-gray-300" },
-                "Настоящая итальянская пицца, приготовленная с любовью и только из свежих ингредиентов. Попробуйте раз, и вы вернетесь снова!"
+                "Wood-fired sourdough, California produce, and late-night vibes. One slice and you’re part of the Big Pizza SF family."
               ),
               React.createElement("a", {
                 href: "#menu",
                 className: "bg-red-600 text-white font-bold font-display text-xl uppercase py-4 px-10 rounded-full hover:bg-red-700 transition-transform transform hover:scale-105 duration-300 shadow-lg"
-              }, "Смотреть меню")
+              }, "Explore the Menu")
             )
           )
         );
@@ -578,10 +578,10 @@
         const [isScrolled, setIsScrolled] = useState(false);
 
         const navLinks = [
-          { href: '#hits', label: 'Хиты' },
-          { href: '#menu', label: 'Меню' },
-          { href: '#about', label: 'О нас' },
-          { href: '#contact', label: 'Контакты' },
+          { href: '#hits', label: 'Favorites' },
+          { href: '#menu', label: 'Menu' },
+          { href: '#about', label: 'About' },
+          { href: '#contact', label: 'Contact' },
         ];
 
         useEffect(() => {
@@ -612,7 +612,7 @@
                     className: "relative inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-display font-bold uppercase text-sm px-4 py-2 rounded-full transition-colors duration-300 shadow-lg"
                   },
                     React.createElement(CartIcon, null),
-                    React.createElement("span", null, "Корзина"),
+                    React.createElement("span", null, "Cart"),
                     cartCount > 0 && React.createElement("span", { className: "absolute -top-2 -right-2 min-w-[1.75rem] h-7 px-2 flex items-center justify-center rounded-full bg-white text-gray-900 text-xs font-extrabold" }, cartCount)
                   )
                 ),
@@ -644,7 +644,7 @@
                       className: "w-[90%] flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white font-display font-bold uppercase text-sm px-4 py-3 rounded-full transition-colors duration-300 shadow-lg"
                     },
                       React.createElement(CartIcon, null),
-                      React.createElement("span", null, cartCount > 0 ? `Корзина (${cartCount})` : "Корзина")
+                      React.createElement("span", null, cartCount > 0 ? `Cart (${cartCount})` : "Cart")
                     )
                   )
                 )
@@ -744,18 +744,18 @@
         };
 
         const handleCheckoutConfirm = ({ phone, address }) => {
-          const subject = "Новый заказ Big Pizza";
-          const orderLines = cartItems.map((item) => `${item.name} — ${item.quantity} шт. × ${item.priceLabel}`);
+          const subject = "New Order — Big Pizza SF";
+          const orderLines = cartItems.map((item) => `${item.name} - ${item.quantity} pcs × ${item.priceLabel}`);
           const bodyLines = [
-            "Новый заказ Big Pizza",
+            "New Big Pizza SF Order",
             "",
-            `Телефон: ${phone}`,
-            `Адрес: ${address}`,
+            `Phone: ${phone}`,
+            `Delivery address: ${address}`,
             "",
-            "Позиции:",
-            orderLines.length ? orderLines.join("\n") : "Корзина пуста",
+            "Items:",
+            orderLines.length ? orderLines.join("\n") : "Cart is empty",
             "",
-            `Итого: ${cartTotalLabel}`
+            `Subtotal: ${cartTotalLabel}`
           ];
 
           const mailtoLink = `mailto:mircrew279@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyLines.join("\n"))}`;
